@@ -3,17 +3,18 @@
 import { MouseEventHandler, SVGProps, useState } from "react"
 import { generateCubicPath, generateLinearPath, generatePathPoints, findClosestPoint, getXinRange, getYinRange } from "../utils/helpers/ChartHelpers"
 import { item, point, range } from "../utils/types/TChart"
+import { SVGMotionProps, easeInOut, motion } from "framer-motion"
 type LineChartProps = {
     canvasHeight: number,
     canvasWidth: number,
-    pathOptions?: SVGProps<SVGPathElement>,
+    pathOptions?: SVGMotionProps<SVGPathElement>,
     data: item[],
     xRange: range,
     yRange: range
 }
 
 const LineChart = ({ canvasHeight, canvasWidth, pathOptions, data, xRange, yRange }: LineChartProps) => {
-    const [selectedValue, setSelectedValue] = useState<number>()
+    const [selectedValue, setSelectedValue] = useState<item>()
     const [selectedPoint, setSelectedPoint] = useState<point>({ x: 100, y: 100 })
 
     const pathPoints = generatePathPoints({ canvasHeight, canvasWidth, data, yRange, xRange })
@@ -30,16 +31,19 @@ const LineChart = ({ canvasHeight, canvasWidth, pathOptions, data, xRange, yRang
             x: getXinRange({ canvasWidth, value: closestPoint?.time, xRange }),
             y: getYinRange({ canvasHeight, value: closestPoint?.value, yRange })
         }
-        setSelectedValue(closestPoint?.value)
+        setSelectedValue(closestPoint)
         setSelectedPoint(interpolatedPoint)
     }
     return <div>
         <svg width={canvasWidth} height={canvasHeight} onMouseMove={handleMouseMove} className="cursor-grabbing">
-            <path d={pathString} fill="none" stroke={"#11ff99"} strokeWidth={8} strokeLinecap="round" {...pathOptions}>
-            </path>
+            <motion.path animate={{ d: pathString, pathLength: [0, 1] }} transition={{ duration: 2, ease: easeInOut }} fill="none" stroke={"#11ff99"} strokeWidth={8} strokeLinecap="round"  {...pathOptions} />
             <circle cx={selectedPoint.x} cy={selectedPoint.y} r={10} fill="none" stroke="white" strokeWidth={8} />
             {/* <text x={selectedPoint.x} y={selectedPoint.y} textAnchor="middle" fill="white" fontWeight={"bold"} fontSize={43}>{selectedValue}</text> */}
         </svg>
+        <motion.div>
+            <p>{selectedValue?.value}</p>
+            <p>{selectedValue?.time}</p>
+        </motion.div>
     </div>
 }
 

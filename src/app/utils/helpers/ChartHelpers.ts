@@ -33,7 +33,7 @@ export const getYinRange = ({ canvasHeight, value, yRange }: { canvasHeight: num
     const diff = yRange.max - yRange.min
     const y = value
     const interpolatedUnit = (y - yRange.min) / diff
-    return interpolatedUnit * canvasHeight
+    return canvasHeight - interpolatedUnit * canvasHeight
 }
 
 export const generatePathPoints = ({ data, canvasWidth, canvasHeight, xRange, yRange }: { canvasWidth: number, canvasHeight: number, data: item[], xRange: range, yRange: range }): point[] => {
@@ -79,49 +79,41 @@ export const generateLinearPath = (points: point[]) => {
 }
 
 export const generateCubicPath = (points: point[]) => {
-    if (!points) {
-        throw new Error("Data is not valid")
+    if (!points || points.length < 3) {
+        throw new Error("Data is not valid");
     }
-
 
     let pathString = '';
     for (let i = 0; i < points.length; i++) {
         const point = points[i];
-        // first point needs to start the path
+
         if (i === 0) {
             pathString += `M ${point.x} ${point.y}`;
-        }
-        else {
-            const prevPoint = points[i - 1]
-            const xDiff = point.x - prevPoint.x
-            const prev = points[i - 1]
-            const prevPrev = points[i - 2]
+        } else {
+            const prevPoint = points[i - 1];
 
-            if (prev == null) {
-                continue
+            if (prevPoint == null) {
+                continue;
             }
 
-            const p0 = prevPrev ?? prev
-            const p1 = prev
-            const cp1x = (2 * p0.x + p1.x) / 3
-            const cp1y = (2 * p0.y + p1.y) / 3
-            const cp2x = (p0.x + 2 * p1.x) / 3
-            const cp2y = (p0.y + 2 * p1.y) / 3
-            const cp3x = (p0.x + 4 * p1.x + point.x) / 6
-            const cp3y = (p0.y + 4 * p1.y + point.y) / 6
+            const p0 = points[i - 2] || prevPoint;
+            const p1 = prevPoint;
+            const cp1x = (2 * p0.x + p1.x) / 3;
+            const cp1y = (2 * p0.y + p1.y) / 3;
+            const cp2x = (p0.x + 2 * p1.x) / 3;
+            const cp2y = (p0.y + 2 * p1.y) / 3;
+            const cp3x = (p0.x + 4 * p1.x + point.x) / 6;
+            const cp3y = (p0.y + 4 * p1.y + point.y) / 6;
             pathString += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${cp3x} ${cp3y}`;
+
             if (i === points.length - 1) {
                 pathString += ` C ${point.x} ${point.y}, ${point.x} ${point.y}, ${point.x} ${point.y}`;
             }
-
         }
-
-        // If it's the last point, close the path
-
     }
 
-    return pathString
-}
+    return pathString;
+};
 
 
 export const findClosestPoint = ({ x, canvasWidth, data, xRange }: { x: number, canvasWidth: number, data: item[], xRange: range }) => {
