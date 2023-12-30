@@ -130,6 +130,11 @@ export const findClosestPoint = ({ x, canvasWidth, data, xRange }: { x: number, 
         ))
     const pointIndex = Math.min(Math.max(index, 0), data.length - 1)
 
-    return data[pointIndex]
+    if (data[pointIndex]) {
+        return data[pointIndex]
+    }
+    else {
+        return null
+    }
 
 }

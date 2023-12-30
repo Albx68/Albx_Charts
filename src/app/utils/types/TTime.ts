@@ -1,1 +1,1 @@
-export type timeFormat = "h:mm a"
+export type timeFormat = "h:mm a" | "HH:MM"

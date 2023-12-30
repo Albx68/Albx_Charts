@@ -18,12 +18,22 @@ type LineChartProps = {
 
 const LineChart = ({ canvasHeight, canvasWidth, pathOptions, data, xRange, yRange }: LineChartProps) => {
     const [showSelectedValue, setShowSelectedValue] = useState(false)
-    const [selectedValue, setSelectedValue] = useState<item>(data[0])
-    const [selectedPoint, setSelectedPoint] = useState<point>({ x: 100, y: 100 })
+    const [selectedValue, setSelectedValue] = useState<item | null>(data[0])
+    const [selectedPoint, setSelectedPoint] = useState<point | null>({ x: -100, y: -100 })
 
     const pathPoints = generatePathPoints({ canvasHeight, canvasWidth, data, yRange, xRange })
     const pathString = generateLinearPath(pathPoints)
 
+    const getInterPolatedPoint = (closestPoint: item | null) => {
+        if (!closestPoint) {
+            return null
+        }
+        const interpolatedPoint = {
+            x: getXinRange({ canvasWidth, value: closestPoint?.time, xRange }),
+            y: getYinRange({ canvasHeight, value: closestPoint?.value, yRange })
+        }
+        return interpolatedPoint
+    }
 
     const handleMouseMove: MouseEventHandler<SVGSVGElement> = (e) => {
         const svgElement = e.currentTarget;
@@ -31,10 +41,7 @@ const LineChart = ({ canvasHeight, canvasWidth, pathOptions, data, xRange, yRang
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         const closestPoint = findClosestPoint({ canvasWidth, data, x, xRange })
-        const interpolatedPoint = {
-            x: getXinRange({ canvasWidth, value: closestPoint?.time, xRange }),
-            y: getYinRange({ canvasHeight, value: closestPoint?.value, yRange })
-        }
+        const interpolatedPoint = getInterPolatedPoint(closestPoint)
         setSelectedValue(closestPoint)
         setSelectedPoint(interpolatedPoint)
     }
@@ -43,19 +50,19 @@ const LineChart = ({ canvasHeight, canvasWidth, pathOptions, data, xRange, yRang
         setShowSelectedValue(true)
     }
     const handleOnMouseLeave: MouseEventHandler<SVGSVGElement> = () => {
-        setShowSelectedValue(false)
+        // setShowSelectedValue(false)
 
     }
     return <div>
         <svg width={canvasWidth} height={canvasHeight} onMouseMove={handleMouseMove} className="cursor-grabbing" onMouseLeave={handleOnMouseLeave} onMouseEnter={handleOnMouseEnter}>
             <motion.path animate={{ d: pathString, pathLength: [0, 1] }} transition={{ duration: 2, ease: easeInOut }} fill="none" stroke={"#11ff99"} strokeWidth={8} strokeLinecap="round"  {...pathOptions} />
-            <circle cx={selectedPoint.x} cy={selectedPoint.y} r={10} fill="none" stroke="white" strokeWidth={8} />
+            <circle cx={selectedPoint?.x} cy={selectedPoint?.y} r={10} fill="none" stroke="white" strokeWidth={8} />
             {/* <text x={selectedPoint.x} y={selectedPoint.y} textAnchor="middle" fill="white" fontWeight={"bold"} fontSize={43}>{selectedValue}</text> */}
         </svg>
         <div className="flex justify-center">
             {showSelectedValue && <motion.div className="flex flex-col items-center">
-                <p>{selectedValue?.value}</p>
-                <p>{formatTime(selectedValue?.time, "h:mm a")}</p>
+                <p className="text-4xl font-bold">{selectedValue?.value}</p>
+                {/* <p>{formatTime(selectedValue?.time, "h:mm a") + "   " + selectedValue?.time}</p> */}
             </motion.div>}
         </div>
     </div>
