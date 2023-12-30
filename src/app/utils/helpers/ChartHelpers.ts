@@ -49,8 +49,36 @@ export const generatePathPoints = ({ data, canvasWidth, canvasHeight, xRange, yR
         }
     })
 }
+export const generateLinearPath = (points: point[]) => {
+    if (!points) {
+        throw new Error("Data is not valid")
+    }
 
-export const generatePathString = (points: point[]) => {
+    let pathString = '';
+    for (let i = 0; i < points.length; i++) {
+        const point = points[i];
+        // first point needs to start the path
+        if (i === 0) {
+            pathString += `M ${point.x} ${point.y}`;
+        }
+        else {
+
+
+            pathString += `L ${point.x} ${point.y}`
+            if (i === points.length - 1) {
+                pathString += `L ${point.x} ${point.y}`;
+            }
+
+        }
+
+        // If it's the last point, close the path
+
+    }
+
+    return pathString
+}
+
+export const generateCubicPath = (points: point[]) => {
     if (!points) {
         throw new Error("Data is not valid")
     }

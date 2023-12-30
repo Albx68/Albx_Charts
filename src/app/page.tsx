@@ -9,14 +9,15 @@ export default function Home() {
   const data = generateDummyData(startTime, endTime, timeGap)
   const valueMin = Math.min(...data.map(item => item.value))
   const valueMax = Math.max(...data.map(item => item.value))
-
+  const verticalPadding = 20
+  const horizontalPadding = 20
   const yRange = {
-    min: valueMin,
-    max: valueMax
+    min: valueMin - verticalPadding,
+    max: valueMax + verticalPadding
   }
   const xRange = {
-    min: startTime,
-    max: endTime
+    min: startTime - horizontalPadding,
+    max: endTime + horizontalPadding
   }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
