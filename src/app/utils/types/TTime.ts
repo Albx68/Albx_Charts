@@ -1,0 +1,1 @@
+export type timeFormat = "h:mm a"
