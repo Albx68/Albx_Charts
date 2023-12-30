@@ -1,13 +1,15 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import useWindowDimensions from '../utils/hooks/useWindowDimensions';
 import { DateTime } from 'luxon';
 import { generateDummyData } from '../utils/helpers/ChartHelpers';
 import LineChart from './LineChart';
 import ColorBlock from './ColorBlock';
+import { colors } from '../utils/types/TColors';
 
 const LineChartWrapper = () => {
+    const [selectedColor, setSelectedColor] = useState<colors>("green")
     const dimensions = useWindowDimensions()
     const dateTime = DateTime.local();
     const endTime = dateTime.toMillis();
@@ -29,7 +31,7 @@ const LineChartWrapper = () => {
     return (
         <section className="flex min-h-screen flex-col items-center justify-center p-24 bg-neutral-900">
             <div className='absolute top-8 right-8'>
-                <ColorBlock />
+                <ColorBlock selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
             </div>
             <LineChart canvasHeight={300} canvasWidth={dimensions.width} data={data} xRange={xRange} yRange={yRange} />
         </section>
