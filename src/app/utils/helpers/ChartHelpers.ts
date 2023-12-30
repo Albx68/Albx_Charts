@@ -138,3 +138,19 @@ export const findClosestPoint = ({ x, canvasWidth, data, xRange }: { x: number, 
     }
 
 }
+
+export function generateSinWavePath(
+    amplitude: number,
+    frequency: number,
+    width: number,
+    height: number
+): string {
+    const numberOfPoints = 10;
+    const pathData = Array.from({ length: numberOfPoints }, (_, index) => {
+        const x = (index / (numberOfPoints - 1)) * width;
+        const y = amplitude * Math.sin((2 * Math.PI * frequency * x) / width) + height / 2;
+        return `${index === 0 ? 'M' : 'L'} ${x} ${y}`;
+    });
+
+    return pathData.join(' ');
+}

@@ -1,7 +1,7 @@
 "use client"
 
 import { MouseEventHandler, SVGProps, useState } from "react"
-import { generateCubicPath, generateLinearPath, generatePathPoints, findClosestPoint, getXinRange, getYinRange } from "../utils/helpers/ChartHelpers"
+import { generateCubicPath, generateLinearPath, generatePathPoints, findClosestPoint, getXinRange, getYinRange, generateSinWavePath } from "../utils/helpers/ChartHelpers"
 import { item, point, range } from "../utils/types/TChart"
 import { SVGMotionProps, easeInOut, motion } from "framer-motion"
 import { formatTime } from "../utils/helpers/time"
@@ -22,8 +22,7 @@ const LineChart = ({ canvasHeight, canvasWidth, pathOptions, data, xRange, yRang
     const [selectedPoint, setSelectedPoint] = useState<point | null>({ x: -100, y: -100 })
 
     const pathPoints = generatePathPoints({ canvasHeight, canvasWidth, data, yRange, xRange })
-    const pathString = generateLinearPath(pathPoints)
-
+    const pathString = generateCubicPath(pathPoints)
     const getInterPolatedPoint = (closestPoint: item | null) => {
         if (!closestPoint) {
             return null
