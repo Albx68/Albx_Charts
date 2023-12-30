@@ -95,3 +95,21 @@ export const generatePathString = (points: point[]) => {
     return pathString
 }
 
+
+export const findClosestPoint = ({ x, canvasWidth, data, xRange }: { x: number, canvasWidth: number, data: item[], xRange: range }) => {
+    const xInRange = Math.max(x, 0)
+
+    const index = Math.round(
+        (xInRange /
+            getXinRange({
+                canvasWidth,
+                value: data[data.length - 1]!.time,
+                xRange
+            }) *
+            (data.length - 1)
+        ))
+    const pointIndex = Math.min(Math.max(index, 0), data.length - 1)
+
+    return data[pointIndex]
+
+}
