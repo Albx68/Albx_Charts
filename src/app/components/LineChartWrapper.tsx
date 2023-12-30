@@ -5,6 +5,7 @@ import useWindowDimensions from '../utils/hooks/useWindowDimensions';
 import { DateTime } from 'luxon';
 import { generateDummyData } from '../utils/helpers/ChartHelpers';
 import LineChart from './LineChart';
+import ColorBlock from './ColorBlock';
 
 const LineChartWrapper = () => {
     const dimensions = useWindowDimensions()
@@ -27,6 +28,9 @@ const LineChartWrapper = () => {
     }
     return (
         <section className="flex min-h-screen flex-col items-center justify-center p-24 bg-neutral-900">
+            <div className='absolute top-8 right-8'>
+                <ColorBlock />
+            </div>
             <LineChart canvasHeight={300} canvasWidth={dimensions.width} data={data} xRange={xRange} yRange={yRange} />
         </section>
     )
