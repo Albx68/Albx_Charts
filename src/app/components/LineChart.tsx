@@ -22,7 +22,7 @@ const LineChart = ({ canvasHeight, canvasWidth, pathOptions, data, xRange, yRang
     const [selectedPoint, setSelectedPoint] = useState<point | null>({ x: -100, y: -100 })
 
     const pathPoints = generatePathPoints({ canvasHeight, canvasWidth, data, yRange, xRange })
-    const pathString = generateCubicPath(pathPoints)
+    const pathString = generateLinearPath(pathPoints)
     const getInterPolatedPoint = (closestPoint: item | null) => {
         if (!closestPoint) {
             return null
@@ -54,7 +54,9 @@ const LineChart = ({ canvasHeight, canvasWidth, pathOptions, data, xRange, yRang
     }
     return <div>
         <svg width={canvasWidth} height={canvasHeight} onMouseMove={handleMouseMove} className="cursor-grabbing" onMouseLeave={handleOnMouseLeave} onMouseEnter={handleOnMouseEnter}>
-            <motion.path animate={{ d: pathString, pathLength: [0, 1] }} transition={{ duration: 2, ease: easeInOut }} fill="none" stroke={"#11ff99"} strokeWidth={8} strokeLinecap="round"  {...pathOptions} />
+            <motion.path className={"blur-sm bg-blend-color-dodge"} animate={{ d: pathString, pathLength: [0, 1] }} transition={{ duration: 2, ease: easeInOut }} strokeLinejoin={"round"} fill="none" stroke={"#11ff99"} strokeWidth={8} strokeLinecap="round"  {...pathOptions} />
+            <motion.path animate={{ d: pathString, pathLength: [0, 1] }} transition={{ duration: 2, ease: easeInOut }} strokeLinejoin={"round"} fill="none" stroke={"#11ff99"} strokeWidth={8} strokeLinecap="round"  {...pathOptions} />
+
             <circle cx={selectedPoint?.x} cy={selectedPoint?.y} r={10} fill="none" stroke="white" strokeWidth={8} />
             {showSelectedValue && <text x={selectedPoint?.x} y={selectedPoint?.y - 20} textAnchor="middle" fill="white" fontWeight={"bold"} fontSize={43}>{selectedValue?.value}</text>}
         </svg>

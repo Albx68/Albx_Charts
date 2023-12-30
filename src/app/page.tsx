@@ -24,7 +24,7 @@ export default function Home() {
     max: endTime + horizontalPadding
   }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-neutral-900">
       <LineChart canvasHeight={300} canvasWidth={dimensions.width} data={data} xRange={xRange} yRange={yRange} />
     </main>
   )
