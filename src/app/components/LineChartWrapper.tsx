@@ -30,9 +30,9 @@ const LineChartWrapper = () => {
     }
     return (
         <section className="flex min-h-screen flex-col items-center justify-center p-24 bg-neutral-900">
-            <div className='absolute top-8 right-8'>
+            {/* <div className='absolute top-8 right-8'>
                 <ColorBlock selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
-            </div>
+            </div> */}
             <LineChart canvasHeight={300} canvasWidth={dimensions.width} data={data} xRange={xRange} yRange={yRange} />
         </section>
     )
