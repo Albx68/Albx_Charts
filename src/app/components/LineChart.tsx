@@ -57,13 +57,12 @@ const LineChart = ({ canvasHeight, canvasWidth, pathOptions, data, xRange, yRang
         <svg width={canvasWidth} height={canvasHeight} onMouseMove={handleMouseMove} className="cursor-grabbing" onMouseLeave={handleOnMouseLeave} onMouseEnter={handleOnMouseEnter}>
             <motion.path animate={{ d: pathString, pathLength: [0, 1] }} transition={{ duration: 2, ease: easeInOut }} fill="none" stroke={"#11ff99"} strokeWidth={8} strokeLinecap="round"  {...pathOptions} />
             <circle cx={selectedPoint?.x} cy={selectedPoint?.y} r={10} fill="none" stroke="white" strokeWidth={8} />
-            {/* <text x={selectedPoint.x} y={selectedPoint.y} textAnchor="middle" fill="white" fontWeight={"bold"} fontSize={43}>{selectedValue}</text> */}
+            {showSelectedValue && <text x={selectedPoint?.x} y={selectedPoint?.y - 20} textAnchor="middle" fill="white" fontWeight={"bold"} fontSize={43}>{selectedValue?.value}</text>}
         </svg>
         <div className="flex justify-center">
-            {showSelectedValue && <motion.div className="flex flex-col items-center">
+            {/* {showSelectedValue && <motion.div className="flex flex-col items-center">
                 <p className="text-4xl font-bold">{selectedValue?.value}</p>
-                {/* <p>{formatTime(selectedValue?.time, "h:mm a") + "   " + selectedValue?.time}</p> */}
-            </motion.div>}
+            </motion.div>} */}
         </div>
     </div>
 }
