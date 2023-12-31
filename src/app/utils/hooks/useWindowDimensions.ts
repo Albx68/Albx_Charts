@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 
 interface WindowDimensions {
@@ -7,8 +8,8 @@ interface WindowDimensions {
 
 const useWindowDimensions = (): WindowDimensions => {
     const [windowDimensions, setWindowDimensions] = useState<WindowDimensions>({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: 0,
+        height: 0,
     });
 
     useEffect(() => {
