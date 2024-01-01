@@ -45,7 +45,7 @@ const ScratchCard: React.FC<ScratchCardProps> = ({ canvasHeight = 400, canvasWid
                         <path d={path} stroke="#fff" strokeWidth={80} strokeLinecap="round" fill="none" />
                     </mask>
                 </defs>
-                <ScratchCardCover canvasHeight={canvasHeight} canvasWidth={canvasWidth} color={'#A585FF'} />
+                <ScratchCardCover canvasHeight={canvasHeight} canvasWidth={canvasWidth} color={'#55FFA3'} />
                 <g mask="url(#myMask)">
                     <HiddenCard />
                 </g>
