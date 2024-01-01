@@ -51,7 +51,7 @@ const ScratchCard: React.FC<ScratchCardProps> = ({ canvasHeight = 400, canvasWid
                 </defs>
                 <ScratchCardCover canvasHeight={canvasHeight} canvasWidth={canvasWidth} color={'#55FFA3'} />
                 <g mask="url(#myMask)">
-                    <HiddenCard />
+                    {!cardOpened && <HiddenCard />}
                 </g>
                 {cardOpened && <HiddenCard />}
             </motion.svg>
