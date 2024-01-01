@@ -29,7 +29,8 @@ const ScratchCard: React.FC<ScratchCardProps> = ({ canvasHeight = 400, canvasWid
     const handleMouseUp = () => {
         setIsMouseDown(false);
     };
-    console.log("path length", path.length)
+
+    const cardOpened = path.length > 4000
     return (
         <div>
             <svg
@@ -49,6 +50,7 @@ const ScratchCard: React.FC<ScratchCardProps> = ({ canvasHeight = 400, canvasWid
                 <g mask="url(#myMask)">
                     <HiddenCard />
                 </g>
+                {cardOpened && <HiddenCard />}
             </svg>
         </div>
     );

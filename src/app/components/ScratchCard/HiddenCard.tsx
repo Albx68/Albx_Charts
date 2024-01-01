@@ -1,8 +1,9 @@
+import { motion } from 'framer-motion'
 import React from 'react'
 
 const HiddenCard = () => {
     return (
-        <g height={"100%"} width={"100%"}>
+        <motion.g height={"100%"} width={"100%"} animate={{ opacity: [0, 1] }} transition={{ duration: 1 }}>
             <svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_607_3)">
                     <path d="M400 0H0V400H400V0Z" fill="#2C4D3D" />
@@ -158,13 +159,7 @@ const HiddenCard = () => {
                 </defs>
             </svg>
 
-
-
-
-
-
-
-        </g>
+        </motion.g>
     )
 }
 
