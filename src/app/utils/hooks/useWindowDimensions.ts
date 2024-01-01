@@ -1,3 +1,4 @@
+"use client"
 
 import { useEffect, useState } from 'react';
 
@@ -8,8 +9,8 @@ interface WindowDimensions {
 
 const useWindowDimensions = (): WindowDimensions => {
     const [windowDimensions, setWindowDimensions] = useState<WindowDimensions>({
-        width: 0,
-        height: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
     });
 
     useEffect(() => {
