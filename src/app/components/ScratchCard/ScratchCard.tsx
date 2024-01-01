@@ -2,6 +2,7 @@
 import React, { MouseEventHandler, useState } from 'react';
 import ScratchCardCover from './ScratchCardCover';
 import HiddenCard from './HiddenCard';
+import { easeIn, easeInOut, motion } from 'framer-motion';
 
 type ScratchCardProps = {
     canvasHeight?: number;
@@ -30,10 +31,12 @@ const ScratchCard: React.FC<ScratchCardProps> = ({ canvasHeight = 400, canvasWid
         setIsMouseDown(false);
     };
 
-    const cardOpened = path.length > 4000
+    const cardOpened = path.length > 3000
     return (
         <div>
-            <svg
+            <motion.svg
+                animate={{ scale: cardOpened ? [1, 1.1,] : 1 }}
+                transition={{ duration: 0.1, ease: easeIn, type: "spring" }}
                 style={{ background: '#222', borderRadius: 40, cursor: 'pointer' }}
                 height={canvasHeight}
                 width={canvasWidth}
@@ -51,7 +54,7 @@ const ScratchCard: React.FC<ScratchCardProps> = ({ canvasHeight = 400, canvasWid
                     <HiddenCard />
                 </g>
                 {cardOpened && <HiddenCard />}
-            </svg>
+            </motion.svg>
         </div>
     );
 };
