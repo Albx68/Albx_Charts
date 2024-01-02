@@ -3,6 +3,8 @@ import React, { MouseEventHandler, useState } from 'react';
 import ScratchCardCover from './ScratchCardCover';
 import HiddenCard from './HiddenCard';
 import { easeIn, easeInOut, motion } from 'framer-motion';
+import SquigglyConfetti from './SquigglyConfetti';
+import PopConfetti from './PopConfetti';
 
 type ScratchCardProps = {
     canvasHeight?: number;
@@ -33,7 +35,7 @@ const ScratchCard: React.FC<ScratchCardProps> = ({ canvasHeight = 400, canvasWid
 
     const cardOpened = path.length > 3000
     return (
-        <div>
+        <div className='relative'>
             <motion.svg
                 animate={{ scale: cardOpened ? [1, 1.1,] : 1 }}
                 transition={{ duration: 0.1, ease: easeIn, type: "spring" }}
@@ -55,8 +57,19 @@ const ScratchCard: React.FC<ScratchCardProps> = ({ canvasHeight = 400, canvasWid
                 </g>
                 {cardOpened && <HiddenCard />}
             </motion.svg>
+            <Confetti />
+            {/* {cardOpened && <Confetti />} */}
         </div>
     );
 };
 
 export default ScratchCard;
+
+const Confetti = () => {
+    return <div className='absolute'>
+        <div className=''><PopConfetti /></div>
+        <div className='absolute top-0 -translate-x-64 -translate-y-96 -rotate-90'><SquigglyConfetti color={'#55FFA3'} transition={{ delay: 0.1 }} /></div>
+        <div className='absolute top-0 translate-x-40 -translate-y-28'><SquigglyConfetti color={'#55FFA3'} transition={{ delay: 0.2 }} /></div>
+        <div className='absolute top-0 translate-x-80 rotate-12  -translate-y-96'><SquigglyConfetti color={'#55FFA3'} transition={{ delay: 0.4 }} /></div>
+    </div>
+} 
