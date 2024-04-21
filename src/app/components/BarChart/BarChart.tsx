@@ -16,12 +16,15 @@ const BarChart = ({ canvasHeight, canvasWidth, data, yRange, barColor }: TBarCha
     const colWidth = canvasWidth / data?.length
     const barPad = colWidth / 10
     const barWidth = colWidth - barPad * 2
-    console.log("canvas width", canvasWidth, data?.length)
+
     return (
         <svg height={canvasHeight} width={canvasWidth}>
             {data.map((bar, idx) => {
                 const height = canvasHeight - getYinRange({ canvasHeight: canvasHeight, value: bar.value, yRange: yRange })
-                return <rect key={idx} fill={barColor} x={idx * colWidth} y={0} height={height} width={barWidth} />
+                console.log(bar.value, height, canvasHeight, height - canvasHeight)
+
+                const x = idx * colWidth
+                return <line key={idx} x1={x} x2={x} y1={canvasHeight - height} y2={canvasHeight} stroke={barColor} strokeWidth={barWidth} />
             })}
         </svg>
     )
